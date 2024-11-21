@@ -4,30 +4,33 @@ function RegistrationForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({}); // Change from setError to setErrors
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setErrors({}); // Clear previous errors
 
-    // Simple validation checks
+    // Validation checks and set errors for each field
+    const newErrors = {};
+
     if (!username) {
-      setError('Username is required.');
-      return;
+      newErrors.username = 'Username is required.';
     }
     if (!email) {
-      setError('Email is required.');
-      return;
+      newErrors.email = 'Email is required.';
     }
     if (!password) {
-      setError('Password is required.');
-      return;
+      newErrors.password = 'Password is required.';
     }
 
     // Basic email validation (improve as needed)
-    if (!email.includes('@')) {
-      setError('Please enter a valid email address.');
-      return;
+    if (email && !email.includes('@')) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Update errors state
+      return; // Stop form submission if there are errors
     }
 
     // Simulate API call - Replace with actual API call
@@ -49,40 +52,47 @@ function RegistrationForm() {
         // Optionally, redirect or update UI after successful registration
       })
       .catch(error => {
-        setError('Registration failed: ' + error.message);
+        setErrors({ general: 'Registration failed: ' + error.message }); // Set general error
       });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>} {/* Display general error */}
+      
       <div>
         <label htmlFor="username">Username:</label>
         <input
           type="text"
           id="username"
-          value={username} // Bind value to state
-          onChange={(e) => setUsername(e.target.value)} // Update state on input change
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
+        {errors.username && <div style={{ color: 'red' }}>{errors.username}</div>} {/* Display username error */}
       </div>
+
       <div>
         <label htmlFor="email">Email:</label>
         <input
           type="email"
           id="email"
-          value={email} // Bind value to state
-          onChange={(e) => setEmail(e.target.value)} // Update state on input change
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
+        {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>} {/* Display email error */}
       </div>
+
       <div>
         <label htmlFor="password">Password:</label>
         <input
           type="password"
           id="password"
-          value={password} // Bind value to state
-          onChange={(e) => setPassword(e.target.value)} // Update state on input change
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
+        {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>} {/* Display password error */}
       </div>
+
       <button type="submit">Register</button>
     </form>
   );
