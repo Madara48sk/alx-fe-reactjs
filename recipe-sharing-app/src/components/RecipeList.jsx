@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import useRecipeStore from '../store/recipeStore';
 
 const RecipeList = () => {
-  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const { filteredRecipes, addFavorite, removeFavorite, favorites } = useRecipeStore();
+
+  const isFavorite = (recipeId) => favorites.includes(recipeId);
 
   return (
     <div>
@@ -17,6 +19,9 @@ const RecipeList = () => {
               <h3>{recipe.title}</h3>
             </Link>
             <p>{recipe.description}</p>
+            <button onClick={() => (isFavorite(recipe.id) ? removeFavorite(recipe.id) : addFavorite(recipe.id))}>
+              {isFavorite(recipe.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+            </button>
           </div>
         ))
       )}

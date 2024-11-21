@@ -5,22 +5,30 @@ import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar';
 import './App.css';
+import useRecipeStore from '../store/recipeStore'; // Import the store
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <h1>Recipe Sharing App</h1>
-        <AddRecipeForm />
-        <SearchBar />
-        <AddRecipeForm />
-        <Routes>
-          <Route path="/" element={<RecipeList />} />
-          <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+    const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
+
+    useEffect(() => {
+      generateRecommendations();
+    }, [generateRecommendations]);
+
+    return (
+      <Router>
+        <div className="App">
+          <h1>Recipe Sharing App</h1>
+          <AddRecipeForm /> {/* Only one AddRecipeForm */}
+          <SearchBar />
+          <Routes>
+            <Route path="/" element={<RecipeList />} />
+            <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
+          </Routes>
+          <FavoritesList />
+          <RecommendationsList />
+        </div>
+      </Router>
+    );
+  }
 
 export default App;
