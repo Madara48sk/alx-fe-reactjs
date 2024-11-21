@@ -10,6 +10,7 @@ function RegistrationForm() {
     e.preventDefault();
     setError(''); // Clear previous errors
 
+    // Simple validation checks
     if (!username) {
       setError('Username is required.');
       return;
@@ -60,8 +61,8 @@ function RegistrationForm() {
         <input
           type="text"
           id="username"
-          value={username} // This line was missing
-          onChange={(e) => setUsername(e.target.value)}
+          value={username} // Bind value to state
+          onChange={(e) => setUsername(e.target.value)} // Update state on input change
         />
       </div>
       <div>
@@ -69,8 +70,8 @@ function RegistrationForm() {
         <input
           type="email"
           id="email"
-          value={email} // This line was missing
-          onChange={(e) => setEmail(e.target.value)}
+          value={email} // Bind value to state
+          onChange={(e) => setEmail(e.target.value)} // Update state on input change
         />
       </div>
       <div>
@@ -78,8 +79,8 @@ function RegistrationForm() {
         <input
           type="password"
           id="password"
-          value={password} // This line was missing
-          onChange={(e) => setPassword(e.target.value)}
+          value={password} // Bind value to state
+          onChange={(e) => setPassword(e.target.value)} // Update state on input change
         />
       </div>
       <button type="submit">Register</button>
