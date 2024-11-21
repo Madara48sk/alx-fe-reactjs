@@ -2,8 +2,8 @@ import create from 'zustand';
 
 const useRecipeStore = create((set) => ({
   recipes: [],
-  searchTerm: '', // This line adds the searchTerm state variable.
-  setSearchTerm: (term) => set({ searchTerm: term }), // This is the action to update searchTerm.
+  searchTerm: '',
+  setSearchTerm: (term) => set({ searchTerm: term }),
   filteredRecipes: [],
   filterRecipes: () =>
     set((state) => ({
@@ -11,6 +11,22 @@ const useRecipeStore = create((set) => ({
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       ),
     })),
+  favorites: [], // Added favorites array
+  addFavorite: (recipeId) =>
+    set((state) => ({ favorites: [...state.favorites, recipeId] })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+  recommendations: [], // Added recommendations array
+  generateRecommendations: () =>
+    set((state) => {
+      // Mock recommendation algorithm - replace with a better one later
+      const recommended = state.recipes.filter((recipe) =>
+        state.favorites.includes(recipe.id) && Math.random() > 0.5
+      );
+      return { recommendations: recommended };
+    }),
   addRecipe: (newRecipe) =>
     set((state) => ({ recipes: [...state.recipes, newRecipe] })),
   setRecipes: (recipes) => set({ recipes }),
