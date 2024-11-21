@@ -12,6 +12,13 @@ function RegistrationForm() {
       setError('All fields are required.');
       return;
     }
+
+    // Basic email validation (can be improved)
+    if (!email.includes('@')) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
     //Simulate API call - Replace with actual API call
     fetch('/api/register', { //Replace with your API endpoint
       method: 'POST',
@@ -20,19 +27,26 @@ function RegistrationForm() {
       },
       body: JSON.stringify({ username, email, password }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Registration successful:', data);
-      setError('');
-    })
-    .catch(error => {
-      setError('Registration failed: ' + error.message);
-    });
+      .then(response => {
+        if (!response.ok) {
+          // Handle different HTTP error codes more gracefully here if needed
+          if (response.status === 400) {
+            return response.json().then(data => {
+              throw new Error(data.message || "Bad Request"); // Extract error message from API response
+            });
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Registration successful:', data);
+        setError(''); //Clear error if successful
+      })
+      .catch(error => {
+        setError('Registration failed: ' + error.message); //Display error message from API or network error.
+      });
   };
 
   return (
