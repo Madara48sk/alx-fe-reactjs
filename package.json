@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "react-router-dom": "^6.28.0"
+    "formik": "^2.4.6",
+    "react-router-dom": "^6.28.0",
+    "yup": "^1.4.0"
   }
 }

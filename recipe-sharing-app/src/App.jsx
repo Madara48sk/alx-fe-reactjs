@@ -5,7 +5,8 @@ import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar';
 import './App.css';
-import useRecipeStore from '../store/recipeStore'; // Import the store
+import useRecipeStore from '../store/recipeStore';
+import RegistrationForm from './components/RegistrationForm';
 
 function App() {
     const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
@@ -26,6 +27,10 @@ function App() {
           </Routes>
           <FavoritesList />
           <RecommendationsList />
+        </div>
+        <div className="App">
+          <h1>Registration</h1>
+          <RegistrationForm /> {/* Or <FormikForm /> */}
         </div>
       </Router>
     );
