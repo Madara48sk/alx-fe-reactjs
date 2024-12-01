@@ -6,11 +6,12 @@ import ProfileDetails from './ProfileDetails';
 import ProfileSettings from './ProfileSettings';
 import Post from './Post';
 import Login from './Login';
-import BlogPost from './BlogPost'; // Added import
+import BlogPost from './BlogPost';
+import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
 
 
 function App() {
-  const isAuthenticated = false; // Replace with actual authentication later
+  const isAuthenticated = false; // Replace with real authentication logic
 
   return (
     <BrowserRouter>
@@ -18,24 +19,24 @@ function App() {
         <Link to="/">Home</Link>{' '}
         <Link to="/profile">Profile</Link>{' '}
         <Link to="/login">Login</Link>{' '}
-        <Link to="/blog/1">Blog</Link> {/* Added link */}
+        <Link to="/blog/1">Blog</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Protected Route with nested routes */}
-        <Route
-          path="/profile"
-          element={isAuthenticated ? <Profile /> : <Navigate to="/login" replace />}
-        >
-          <Route path="details" element={<ProfileDetails />} />
-          <Route path="settings" element={<ProfileSettings />} />
+        {/* Use ProtectedRoute component */}
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+          <Route path="/profile" element={<Profile />} >
+            <Route path="details" element={<ProfileDetails />} />
+            <Route path="settings" element={<ProfileSettings />} />
+          </Route>
         </Route>
 
+
         <Route path="/post/:postId" element={<Post />} />
-        <Route path="/blog/:id" element={<BlogPost />} /> {/* Added route */}
-        <Route path="*" element={<p>404 Not Found</p>} /> {/* Catch-all */}
+        <Route path="/blog/:id" element={<BlogPost />} />
+        <Route path="*" element={<p>404 Not Found</p>} />
       </Routes>
     </BrowserRouter>
   );
