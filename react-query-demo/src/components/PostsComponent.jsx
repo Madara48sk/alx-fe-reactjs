@@ -10,7 +10,14 @@ const fetchPosts = async () => {
 };
 
 const PostsComponent = () => {
-  const { data, isLoading, isError, error } = useQuery('posts', fetchPosts);
+  const query = useQuery('posts', fetchPosts, {
+    cacheTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60,     // 1 minute
+    refetchOnWindowFocus: false, // Adjust as needed
+    keepPreviousData: true,    // Keep old data while fetching new data
+  });
+
+  const { data, isLoading, isError, error } = query;
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error?.message || 'An unexpected error occurred'}</p>;
@@ -23,7 +30,7 @@ const PostsComponent = () => {
           <li key={post.id}>{post.title}</li>
         ))}
       </ul>
-      <button onClick={() => window.location.reload()}>Refetch</button>
+      <button onClick={() => query.refetch()}>Refetch</button> {/* More controlled refetch */}
     </div>
   );
 };
