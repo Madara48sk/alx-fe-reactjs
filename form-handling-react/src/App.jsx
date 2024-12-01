@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'; // Keep your existing CSS
+import './App.css';
 import RegistrationForm from './components/RegistrationForm';
 import FormikForm from './components/formikForm';
 
