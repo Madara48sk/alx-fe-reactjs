@@ -10,10 +10,10 @@ const fetchPosts = async () => {
 };
 
 const PostsComponent = () => {
-  const { data, isLoading, error } = useQuery('posts', fetchPosts);
+  const { data, isLoading, isError, error } = useQuery('posts', fetchPosts);
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isError) return <p>Error: {error?.message || 'An unexpected error occurred'}</p>;
 
   return (
     <div>
@@ -23,7 +23,8 @@ const PostsComponent = () => {
           <li key={post.id}>{post.title}</li>
         ))}
       </ul>
-      <button onClick={() => window.location.reload()}>Refetch</button> </div>
+      <button onClick={() => window.location.reload()}>Refetch</button>
+    </div>
   );
 };
 
