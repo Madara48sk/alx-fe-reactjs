@@ -6,6 +6,8 @@ import ProfileDetails from './ProfileDetails';
 import ProfileSettings from './ProfileSettings';
 import Post from './Post';
 import Login from './Login';
+import BlogPost from './BlogPost'; // Added import
+
 
 function App() {
   const isAuthenticated = false; // Replace with actual authentication later
@@ -15,7 +17,8 @@ function App() {
       <nav>
         <Link to="/">Home</Link>{' '}
         <Link to="/profile">Profile</Link>{' '}
-        <Link to="/login">Login</Link>
+        <Link to="/login">Login</Link>{' '}
+        <Link to="/blog/1">Blog</Link> {/* Added link */}
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,6 +34,7 @@ function App() {
         </Route>
 
         <Route path="/post/:postId" element={<Post />} />
+        <Route path="/blog/:id" element={<BlogPost />} /> {/* Added route */}
         <Route path="*" element={<p>404 Not Found</p>} /> {/* Catch-all */}
       </Routes>
     </BrowserRouter>
