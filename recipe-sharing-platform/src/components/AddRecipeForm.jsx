@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
 
 const AddRecipeForm = () => {
-  // ... (state variables remain the same) ...
+  const [title, setTitle] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [steps, setSteps] = useState('');
+  const [errors, setErrors] = useState({}); // setErrors included
+  const [submitted, setSubmitted] = useState(false);
 
   const validate = () => {
-    // ... (validation function remains the same) ...
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = 'Title is required';
+    if (!ingredients.trim()) newErrors.ingredients = 'Ingredients are required';
+    if (!steps.trim()) newErrors.steps = 'Steps are required';
+    return newErrors;
   };
 
   const handleSubmit = (e) => {
-    // ... (handleSubmit function remains the same) ...
+    e.preventDefault(); // preventDefault included
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    //Here you'd normally make an API call to submit the data.  For now, we just log it to the console.
+    console.log('Recipe submitted:', { title, ingredients, steps });
+    setSubmitted(true);
+    setTitle('');
+    setIngredients('');
+    setSteps('');
   };
 
   return (
@@ -24,7 +44,7 @@ const AddRecipeForm = () => {
             id="title"
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)} // target.value added here
+            onChange={(e) => setTitle(e.target.value)}
           />
           {errors.title && <p className="text-red-500 text-xs italic">{errors.title}</p>}
         </div>
@@ -37,7 +57,7 @@ const AddRecipeForm = () => {
             id="ingredients"
             rows="5"
             value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)} // target.value added here
+            onChange={(e) => setIngredients(e.target.value)}
           ></textarea>
           {errors.ingredients && <p className="text-red-500 text-xs italic">{errors.ingredients}</p>}
         </div>
@@ -50,7 +70,7 @@ const AddRecipeForm = () => {
             id="steps"
             rows="5"
             value={steps}
-            onChange={(e) => setSteps(e.target.value)} // target.value added here
+            onChange={(e) => setSteps(e.target.value)}
           ></textarea>
           {errors.steps && <p className="text-red-500 text-xs italic">{errors.steps}</p>}
         </div>
