@@ -1,16 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Correct import statement
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/data.json');
-      const data = await response.json();
-      setRecipes(data);
+      try {
+        const response = await fetch('/data.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setRecipes(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchData();
   }, []);
+
+  if (loading) {
+    return <div>Loading recipes...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading recipes: {error.message}</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
