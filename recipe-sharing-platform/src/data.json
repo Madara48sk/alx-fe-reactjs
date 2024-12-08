@@ -1,4 +1,12 @@
 [
+   {
+        "id": 1,
+        "title": "Spaghetti Carbonara",
+        "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
+        "image": "https://via.placeholder.com/150",
+        "ingredients": ["Spaghetti", "Eggs", "Pecorino Romano cheese", "Guanciale (cured pork jowl)", "Black pepper"],
+        "instructions": ["Cook spaghetti al dente.", "While pasta cooks, render guanciale until crispy.", "Whisk eggs with cheese and pepper.", "Toss cooked pasta with guanciale, egg mixture, and more pepper."]
+  },
   {
     "id": 1,
     "title": "Spaghetti Carbonara",
