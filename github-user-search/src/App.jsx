@@ -4,23 +4,34 @@ import UserCard from './components/UserCard';
 import githubService from './services/githubService';
 
 function App() {
-    const [user, setUser] = useState(null);
-    const handleSearch = async (username) => {
-    const userData = await githubService.searchUser(username);
-    setUser(userData);
-    };
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-    return (
-        <div className="App">
-        <header>
-            <h1>GitHub User Search</h1>
-        </header>
-        <main>
-            <SearchInput onSearch={handleSearch} />
-            <UserCard user={user} />
-        </main>
-        </div>
-    );
+  const handleSearch = async (username) => {
+    setUser(null);
+    setError(false);
+    setLoading(true);
+    const userData = await githubService.fetchUserData(username);
+    setLoading(false);
+    if (userData) {
+      setUser(userData);
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <div className="App">
+      <header>
+        <h1>GitHub User Search</h1>
+      </header>
+      <main>
+        <SearchInput onSearch={handleSearch} />
+        <UserCard user={user} loading={loading} error={error} />
+      </main>
+    </div>
+  );
 }
 
 export default App;

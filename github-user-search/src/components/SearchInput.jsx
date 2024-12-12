@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function SearchInput({ onSearch }) {
-  const [username, setUsername] = React.useState('');
+  const [username, setUsername] = useState('');
 
   const handleChange = (event) => {
     setUsername(event.target.value);
