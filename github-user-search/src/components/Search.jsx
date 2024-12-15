@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function Search() {
   const [username, setUsername] = useState('');
-  const [users, setUsers] = useState([]); // Use an array to store multiple users
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -12,7 +12,6 @@ function Search() {
       setIsLoading(true);
       setError(null);
 
-      // Assuming you want to search for multiple users separated by commas
       const usernames = username.split(',').map(name => name.trim()); 
 
       const userPromises = usernames.map(name => 
@@ -53,7 +52,9 @@ function Search() {
         <ul>
           {users.map(user => (
             <li key={user.id}> 
-              <h2>{user.login}</h2>
+              <h2>{user.login}</h2> 
+              <p>Location: {user.location}</p> 
+              <p>GitHub Profile: <a href={user.html_url} target="_blank" rel="noopener noreferrer">{user.html_url}</a></p> 
               <img src={user.avatar_url} alt={user.login} /> 
             </li>
           ))}
