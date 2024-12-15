@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 
 function Search() {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]); // Use an array to store multiple users
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchUserData = async () => {
     try {
       setIsLoading(true);
-      setError(null); 
+      setError(null);
 
-      const response = await axios.get(`https://api.github.com/users/${username}`);
-      setUser(response.data); 
+      // Assuming you want to search for multiple users separated by commas
+      const usernames = username.split(',').map(name => name.trim()); 
+
+      const userPromises = usernames.map(name => 
+        axios.get(`https://api.github.com/users/${name}`)
+      );
+
+      const responses = await Promise.all(userPromises); 
+      setUsers(responses.map(response => response.data)); 
     } catch (err) {
-      setError("Looks like we cant find the user"); 
+      setError("Looks like we cant find the users"); 
     } finally {
       setIsLoading(false);
     }
@@ -32,7 +39,7 @@ function Search() {
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
-          placeholder="Enter GitHub username" 
+          placeholder="Enter GitHub usernames (comma-separated)" 
           value={username} 
           onChange={(e) => setUsername(e.target.value)} 
         />
@@ -42,11 +49,15 @@ function Search() {
       {isLoading && <p>Loading...</p>} 
       {error && <p>{error}</p>} 
 
-      {user && (
-        <div>
-          <h2>{user.login}</h2>
-          <img src={user.avatar_url} alt={user.login} /> 
-        </div>
+      {users.length > 0 && (
+        <ul>
+          {users.map(user => (
+            <li key={user.id}> 
+              <h2>{user.login}</h2>
+              <img src={user.avatar_url} alt={user.login} /> 
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
