@@ -1,16 +1,29 @@
 import React from 'react';
 
-function UserCard({ user }) {
+function UserCard({ user, loading, error }) {
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Looks like we can't find the user</p>;
+  }
+
+  if (!user) {
+    return null;
+  }
+
   return (
-    <div className="bg-white p-4 border rounded shadow flex items-center space-x-4 text-gray-800">
-       <img src={user.avatar_url} alt={`${user.login}'s avatar`} className="w-16 h-16 rounded-full" />
-      <div>
-        <h3 className="font-bold text-xl">{user.login}</h3>
-        {user.location && <p>Location: {user.location}</p>}
-        <p>Repositories: {user.public_repos}</p>
-        <a href={user.html_url} target="_blank" rel="noopener noreferrer"
-           className="text-blue-600 hover:underline">Profile</a>
-       </div>
+    <div className="user-card">
+      <img src={user.avatar_url} alt={`Avatar for ${user.login}`} />
+      <h2>{user.login}</h2>
+      <p>{user.name}</p>
+      <p>
+        <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+          View Profile
+        </a>
+      </p>
     </div>
   );
 }
