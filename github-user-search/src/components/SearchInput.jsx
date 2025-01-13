@@ -25,4 +25,4 @@ function SearchInput({ onSearch }) {
   );
 }
 
-export default SearchInput;
+export default SearchInput;  
