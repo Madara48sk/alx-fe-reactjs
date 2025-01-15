@@ -1,5 +1,5 @@
 import React from 'react';
 
-const UserContext = React.createContext(null); // Initialize with null or a default object
+const UserContext = React.createContext(null); // Or a default object if needed
 
 export default UserContext;

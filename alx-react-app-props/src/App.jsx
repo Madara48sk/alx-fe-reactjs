@@ -7,11 +7,14 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import UserContext from './UserContext'; // Import UserContext
 
 function App() {
   const [count, setCount] = useState(0);
+    const userData = { name: "Jane Doe", email: "jane.doe@example.com" }; // Dummy user data
 
   return (
+    <UserContext.Provider value={userData}> {/* Wrap the app with UserContext.Provider */}
     <div className="App">
       <Header />
       <main>
@@ -43,6 +46,7 @@ function App() {
       
       <Footer />
     </div>
+        </UserContext.Provider>
   );
 }
 
