@@ -7,6 +7,8 @@ import SearchBar from './components/SearchBar';
 import './App.css';
 import useRecipeStore from '../store/recipeStore';
 import RegistrationForm from './components/RegistrationForm';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 function App() {
     const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
